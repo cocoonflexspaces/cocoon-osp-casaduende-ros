@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#1A1A1A" />
 <title>Cocoon × One Small Planet — Casa Duende · Combined Run of Show</title>
 <style>
   :root {
@@ -404,21 +405,93 @@
     .dh-right { text-align: left; }
   }
 
-  .spec-value.ok-text { color: var(--teal); }
-  .dh-access-note.ok { color: var(--teal); }
+  /* ── V3 · mobile-first on-site ── */
+  .spec-value.ok-text, .dh-access-note.ok { color: var(--teal); }
+  .jumpnav a.now-link { background: rgba(39,84,83,0.9); color: #fff; }
+  .jumpnav a[hidden] { display: none; }
+  .ros-filter { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0 0 8px; padding: 0; max-width: none; }
+  .chip { font: inherit; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 6px 12px; border-radius: 100px; border: 1px solid var(--rule); background: var(--cream); color: var(--ink-soft); cursor: pointer; }
+  .chip.on { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  .chip:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 2px; }
+  .now-status { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--teal); }
+  .ros-table tr.is-past td { opacity: 0.5; }
+  .ros-table tr.is-now td { background: rgba(39,84,83,0.12); }
+  .ros-table tr.is-now .rt-time::before { content: "● NOW  "; color: var(--teal); }
+  .ros-table tr.is-next .rt-time::before { content: "NEXT  "; color: var(--terracotta); }
+  .ros-table tr[hidden] { display: none !important; }
+  html { scroll-padding-top: calc(var(--navh, 48px) + 8px); }
+  .page { scroll-margin-top: calc(var(--navh, 48px) + 4px); }
+
+  @media screen and (max-width: 880px) {
+    .intro-line { display: none; }
+    .jumpnav.screen-only { margin: 0; }
+    .jumpnav a { font-size: 12.5px; padding: 9px 14px; }
+    .howto { display: none; }
+    .cover-left, .cover-right { padding: 20px 16px; }
+    .cover-title { font-size: 36px; }
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .cover-footer-note, .cover-footer-contact { font-size: 12px; }
+    .days-index .fi-num { font-size: 12px; min-width: 76px; }
+    .days-index .fi-name { font-size: 13px; }
+    .flag-box .fb-head, .features-head, .qp-head, .items-group-head, .team-col-head { font-size: 11px; }
+
+    /* Phase strip → swipeable row */
+    .glance-strip { display: flex; overflow-x: auto; gap: 10px; scroll-snap-type: x mandatory; padding-bottom: 6px; margin-inline: -16px; padding-inline: 16px; scrollbar-width: none; }
+    .glance-strip::-webkit-scrollbar { display: none; }
+    .glance-card { flex: 0 0 72%; scroll-snap-align: start; }
+    .gc-date { font-size: 10px; }
+
+    /* Timeline → compact cards */
+    .day-body { padding: 12px 12px 16px; }
+    .ros-filter { position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--navh, 48px)); z-index: 20; background: var(--cream); margin: 0 -12px 8px; padding: 8px 12px; border-bottom: 1px solid var(--rule); }
+    .chip { font-size: 11.5px; padding: 8px 14px; }
+    .now-status { font-size: 11px; width: 100%; }
+    .ros-table tbody tr:not(.phase-row) { display: grid; grid-template-columns: auto 1fr; column-gap: 10px; row-gap: 3px; align-items: center; padding: 10px 12px; margin-bottom: 6px; border-radius: 8px; }
+    .ros-table tbody td { display: block; width: auto; padding: 0; border-bottom: none; }
+    .ros-table .rt-time { grid-column: 1; font-size: 15px; margin: 0; }
+    .ros-table .rt-track { grid-column: 2; justify-self: end; margin: 0; }
+    .ros-table .rt-item { grid-column: 1 / -1; font-size: 14px; line-height: 1.4; padding-top: 2px; }
+    .ros-table .rt-item .rt-note { font-size: 12.5px; line-height: 1.4; margin-top: 2px; }
+    .ros-table .rt-owner { grid-column: 1 / -1; font-size: 12px; margin-top: 1px; }
+    .track-pill { font-size: 10px; padding: 4px 10px; }
+    .ros-table tr.phase-row { position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--navh, 48px) + var(--filterh, 50px)); z-index: 10; margin: 14px 0 8px; border-radius: 6px; }
+    .ros-table tr.phase-row td { padding: 0 !important; }
+    .ros-table tr.is-now { border: 2px solid var(--teal); background: rgba(39,84,83,0.10); }
+    .ros-table tr.is-now td { background: transparent; }
+    .ros-table tr.is-next { border-color: rgba(245,64,41,0.45); }
+    .dh-left { gap: 10px; }
+    .dh-sub { font-size: 10px; letter-spacing: 0.08em; }
+
+    /* Quick contacts: bigger tap targets */
+    .qc-row { padding: 10px 0; }
+    .qc-phone.tel-link { font-size: 15px; padding: 4px 0; }
+    .p-phone.tel-link { font-size: 14px; }
+    .ot-callout { padding: 12px 14px; }
+    .plan-footer { padding: 10px 16px; }
+    .plan-footer-left, .plan-footer-center, .plan-footer-right { font-size: 9.5px; }
+  }
+  @media screen and (max-width: 880px) {
+    .ros-filter.screen-only { flex-direction: row; flex-wrap: wrap; align-items: center; max-width: none; margin: 0 -12px 8px; padding: 8px 12px; gap: 6px; }
+  }
+  @media screen and (max-width: 880px) {
+    .ros-table tr.row-highlight td, .ros-table tr.is-now td { background: transparent; }
+    .ros-table tr.is-past { opacity: 0.55; }
+    .ros-table tr.is-past td { opacity: 1; }
+  }
 </style>
 </head>
 <body>
 <div class="screen-only intro-line">
-  <span>5 sections · V2 · Extension confirmed · Built for phones on site · Source: Ticket #57706 + OSP Run of Show</span>
+  <span>5 sections · V3 · Extension confirmed · Built for phones on site · Source: Ticket #57706 + OSP Run of Show</span>
 </div>
 
-<nav class="jumpnav screen-only">
-  <a href="#cover">Cover</a>
+<nav class="jumpnav screen-only" id="jumpnav">
+  <a href="#day-24" class="today">Sep 24 · Event</a>
+  <a href="#now" class="now-link" id="nowLink">● Now</a>
   <a href="#quickref">Quick Ref</a>
   <a href="#open-items">Open Items</a>
-  <a href="#day-24" class="today">Sep 24 · Event</a>
   <a href="#team">Contacts</a>
+  <a href="#cover">Cover</a>
 </nav>
 
 <!-- ═════════ PAGE 1 — COVER ═════════ -->
@@ -487,7 +560,7 @@
     </div>
 
     <div class="cover-right">
-      <div>
+      <div class="howto">
         <div class="features-head">How to read this document</div>
         <ul class="features-list">
           <li>One combined timeline: the OSP Run of Show merged with Cocoon's on-site actions</li>
@@ -781,6 +854,13 @@
     </div>
   </div>
   <div class="day-body">
+    <div class="ros-filter screen-only" role="group" aria-label="Filter timeline by owner">
+      <button type="button" class="chip on" data-f="all" id="f-all">All</button>
+      <button type="button" class="chip" data-f="cocoon" id="f-cocoon">Cocoon</button>
+      <button type="button" class="chip" data-f="pb" id="f-pb">OSP Team</button>
+      <button type="button" class="chip" data-f="vendor" id="f-vendor">Vendor</button>
+      <span class="now-status" id="nowStatus"></span>
+    </div>
     <div class="table-wrap">
     <table class="ros-table">
       <thead><tr><th>Time</th><th>Track</th><th>Action</th><th>Owner / Supplier</th></tr></thead>
@@ -1119,6 +1199,83 @@
     <div class="plan-footer-right">Team &amp; Contacts · Page 5 of 5</div>
   </div>
 </div>
+
+<script>
+(function(){
+  var nav=document.getElementById('jumpnav');
+  function setNavH(){ var r=document.documentElement.style; if(nav) r.setProperty('--navh', nav.offsetHeight+'px'); var fb=document.querySelector('.ros-filter'); if(fb) r.setProperty('--filterh', fb.offsetHeight+'px'); }
+  setNavH(); window.addEventListener('resize', setNavH);
+
+  var rows=[].slice.call(document.querySelectorAll('#day-24 .ros-table tbody tr'));
+
+  // Owner filter
+  var chips=[].slice.call(document.querySelectorAll('.ros-filter .chip'));
+  function applyFilter(f){
+    chips.forEach(function(c){ c.classList.toggle('on', c.dataset.f===f); c.setAttribute('aria-pressed', c.dataset.f===f); });
+    var lastPhase=null, count=0;
+    function closePhase(){ if(lastPhase) lastPhase.hidden = (count===0); }
+    rows.forEach(function(r){
+      if(r.classList.contains('phase-row')){ closePhase(); lastPhase=r; count=0; return; }
+      var pill=r.querySelector('.track-pill');
+      var show = f==='all' || (pill && pill.classList.contains(f));
+      r.hidden=!show; if(show) count++;
+    });
+    closePhase();
+    try{ localStorage.setItem('ros-filter', f); }catch(e){}
+  }
+  chips.forEach(function(c){ c.addEventListener('click', function(){ applyFilter(c.dataset.f); }); });
+  var saved='all'; try{ saved=localStorage.getItem('ros-filter')||'all'; }catch(e){}
+  applyFilter(saved);
+
+  // Live "now" marker, event day in New York time
+  function parse(t){
+    var m=(t||'').replace('~','').match(/(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
+    if(!m) return null;
+    var h=+m[1], mi=+m[2], ap=(m[3]||(t.match(/(AM|PM)/i)||[])[1]||'PM').toUpperCase();
+    if(ap==='PM' && h!==12) h+=12; if(ap==='AM' && h===12) h=0;
+    var mins=h*60+mi; if(h<6) mins+=1440; return mins;
+  }
+  var timed=[], stop=false;
+  rows.forEach(function(r){
+    if(r.classList.contains('phase-row')){ if(/Sep 25/.test(r.textContent)) stop=true; return; }
+    if(stop) return;
+    var txt=(r.querySelector('.rt-time')||{}).textContent||'';
+    var v=parse(txt);
+    if(v===null) return;
+    var parts=txt.split(/[–-]/), e=null;
+    if(parts.length>1){ e=parse(parts[1]); if(e!==null && e<v) e+=1440; }
+    timed.push({r:r,v:v,e:e});
+  });
+  var link=document.getElementById('nowLink'), status=document.getElementById('nowStatus');
+  function nyNow(){
+    var p={}; new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date()).forEach(function(x){p[x.type]=x.value;});
+    var d=p.year+'-'+p.month+'-'+p.day, m=(+p.hour%24)*60+(+p.minute);
+    if(d==='2026-09-24') return m;
+    if(d==='2026-09-25' && m<360) return m+1440;
+    return null;
+  }
+  function tick(){
+    timed.forEach(function(t){ t.r.classList.remove('is-now','is-next','is-past'); });
+    var now=nyNow(), cur=null, next=null;
+    if(now!==null){
+      timed.forEach(function(t){ if(t.v<=now){ cur=t; } else if(!next){ next=t; } });
+      timed.forEach(function(t){
+        if(t.v>now) return;
+        var live = (t.e!==null && now<t.e) || (cur && t.v===cur.v);
+        t.r.classList.add(live ? 'is-now' : 'is-past');
+      });
+      if(next){ timed.forEach(function(t){ if(t.v===next.v) t.r.classList.add('is-next'); }); }
+      if(status) status.textContent = cur ? 'Live · highlighting what\'s on now' : 'Starts soon · next item highlighted';
+    } else if(status){ status.textContent=''; }
+    var nows=document.querySelectorAll('#day-24 .is-now:not([hidden])'); var target=nows[nows.length-1]||document.querySelector('#day-24 .is-next:not([hidden])');
+    if(link) link.setAttribute('href', target ? '#now' : '#day-24');
+    if(link) link.hidden = !target;
+    document.querySelectorAll('#now').forEach(function(e){ e.removeAttribute('id'); });
+    if(target) target.id='now';
+  }
+  tick(); setInterval(tick, 60000);
+})();
+</script>
 
 </body>
 </html>
